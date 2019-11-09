@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="dual-arm-ese680" pkg="moveit_tutorials" type="dual-arm-ese680.py" respawn="false" output="screen">
+  </node>
+
+</launch>
