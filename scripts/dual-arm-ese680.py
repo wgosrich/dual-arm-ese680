@@ -85,7 +85,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     ##
     ## First initialize `moveit_commander`_ and a `rospy`_ node:
     moveit_commander.roscpp_initialize(sys.argv)
-    rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
+    rospy.init_node('dual-arm-ese680', anonymous=True)
 
     ## Instantiate a `RobotCommander`_ object. Provides information such as the robot's
     ## kinematic model and the robot's current joint states
@@ -183,7 +183,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     return all_close(joint_goal, current_joints, 0.01)
 
 
-  def go_to_pose_goal(self):
+  def go_to_pose_goal(self, w=1.0, x=0.4, y=0.1, z=0.4):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
@@ -196,10 +196,10 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## We can plan a motion for this group to a desired pose for the
     ## end-effector:
     pose_goal = geometry_msgs.msg.Pose()
-    pose_goal.orientation.w = 1.0
-    pose_goal.position.x = 0.4
-    pose_goal.position.y = 0.1
-    pose_goal.position.z = 0.4
+    pose_goal.orientation.w = w
+    pose_goal.position.x = x
+    pose_goal.position.y = y
+    pose_goal.position.z = z
 
     move_group.set_pose_target(pose_goal)
 
@@ -451,56 +451,25 @@ def main():
   try:
     print ""
     print "----------------------------------------------------------"
-    print "Welcome to the MoveIt MoveGroup Python Interface Tutorial"
+    print "setting up moveit_commander..."
     print "----------------------------------------------------------"
-    print "Press Ctrl-D to exit at any time"
-    print ""
-    print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander ..."
-    raw_input()
     tutorial = MoveGroupPythonIntefaceTutorial()
 
-    print "============ Press `Enter` to execute a movement using a joint state goal ..."
-    raw_input()
-    tutorial.go_to_joint_state()
+    # tutorial.go_to_joint_state()
 
     print "============ Press `Enter` to execute a movement using a pose goal ..."
     raw_input()
     tutorial.go_to_pose_goal()
 
-    print "============ Press `Enter` to plan and display a Cartesian path ..."
+    print "============ Press `Enter` to execute a second movement using a pose goal ..."
     raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    tutorial.go_to_pose_goal(0.5,0.4,0.4,0.4)
 
-    print "============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ..."
+
+    print "============ Press `Enter` to execute a third movement using a pose goal ..."
     raw_input()
-    tutorial.display_trajectory(cartesian_plan)
+    tutorial.go_to_pose_goal(1.3,0.4,0.4,0.4)
 
-    print "============ Press `Enter` to execute a saved path ..."
-    raw_input()
-    tutorial.execute_plan(cartesian_plan)
-
-    print "============ Press `Enter` to add a box to the planning scene ..."
-    raw_input()
-    tutorial.add_box()
-
-    print "============ Press `Enter` to attach a Box to the Panda robot ..."
-    raw_input()
-    tutorial.attach_box()
-
-    print "============ Press `Enter` to plan and execute a path with an attached collision object ..."
-    raw_input()
-    cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
-    tutorial.execute_plan(cartesian_plan)
-
-    print "============ Press `Enter` to detach the box from the Panda robot ..."
-    raw_input()
-    tutorial.detach_box()
-
-    print "============ Press `Enter` to remove the box from the planning scene ..."
-    raw_input()
-    tutorial.remove_box()
-
-    print "============ Python tutorial demo complete!"
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
