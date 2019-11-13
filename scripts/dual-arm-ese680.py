@@ -50,6 +50,7 @@ import geometry_msgs.msg
 from math import pi
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+import pick_place_interface
 ## END_SUB_TUTORIAL
 
 
@@ -446,6 +447,12 @@ class MoveGroupPythonIntefaceTutorial(object):
     # We wait for the planning scene to update.
     return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
 
+  def create_grasp(self):
+    #TODO: decide between using the moveit pick place interface, or just attaching and detaching boxes to "grasp"
+    p = PickPlaceInterface(self.)
+
+
+
 
 def main():
   try:
@@ -468,7 +475,7 @@ def main():
 
     print "============ Press `Enter` to execute a third movement using a pose goal ..."
     raw_input()
-    tutorial.go_to_pose_goal(1.3,0.4,0.4,0.4)
+    tutorial.go_to_pose_goal(1.,30.4,0.4,0.4)
 
   except rospy.ROSInterruptException:
     return

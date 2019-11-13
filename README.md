@@ -8,3 +8,5 @@ In one terminal:
 """ roslaunch panda_moveit_config demo.launch """
 In another:
 """ rosrun moveit_tutorials dual-arm-ese680.py """
+
+
